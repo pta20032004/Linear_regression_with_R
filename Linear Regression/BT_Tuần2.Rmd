@@ -1,4 +1,4 @@
-1.  Cho bộ dữ liệu Australian Institute of Sport (file excel đính kèm). Sử dụng phần mềm thống kê R/Rstudio, hãy:
+1.   Cho bộ dữ liệu Australian Institute of Sport (file excel đính kèm). Sử dụng phần mềm thống kê R/Rstudio, hãy:
 
 ```{=html}
 <!-- -->
