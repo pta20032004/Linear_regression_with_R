@@ -1,0 +1,26 @@
+```{r}
+#install.packages(datasets)
+library(datasets)
+data = cars
+names(data)
+
+set.seed(17)
+s = sample(c(T,F), nrow(data), replace = T, prob = c(0.65,0.35))
+train = data[s,]
+test = data[!s,]
+
+lm.fit = lm(dist ~ speed, data = train)
+summary(lm.fit)
+#Hệ số khác 0
+shapiro.test(lm.fit$res)
+#Không chuẩn
+wilcox.test(lm.fit$res)
+#khác 0
+
+pre = predict(lm.fit, newdata = test)
+RSS = sum((test$dist - pre)^2)
+TSS = sum((test$dist - mean(test$dist))^2)
+
+R_squared = 1 - RSS/TSS
+R_squared
+```
