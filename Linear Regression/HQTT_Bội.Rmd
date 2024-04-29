@@ -1,0 +1,42 @@
+Sử dụng bộ dữ liệu Boston trong gói lệnh MASS bao gồm 14 biến liên quan đến giá trị nhà ở vùng ngoại ô ở Boston và hàm step, phân tích hồi quy bội của biến medv (giá nhà trung bình – đơn vị: nghìn \$) theo các biến còn lại.
+
+a) Đưa ra mô hình hồi quy tuyến tính “forward” và “ backward” tốt nhất.
+
+b) Khi phân tích “forward”, nếu biến medv được biểu diễn theo hai biến thì đó là những biến nào?
+
+c) Khi phân tích “backward”, kiểm định xem các hệ số trong mô hình hồi quy tuyến tính thu được có thực sự khác 0 không? Phần dư có tuân theo phân phối chuẩn với giá trị trung bình bằng 0 không?
+
+```{r}
+#install.packages("MASS)
+library(MASS)
+data = Boston
+names(data)
+
+#Tạo mô hình 0 biến, 1 mô hình tất cả các biến
+only = lm(medv ~ 1, data = data)
+all = lm(medv ~ .,data = data)
+
+#Phân tích hàm step 
+#step(object, formula (phạm vi), direction = "backward" or "forward" or "both"), object là mô hình
+step(only, formula(all), direction = "forward")
+
+#Step:  AIC=1585.76
+#medv ~ lstat + rm + ptratio + dis + nox + chas + black + zn + 
+#    crim + rad + tax
+
+back = step(all, formula(all), direction = "backward")
+
+#Step:  AIC=1585.76
+#medv ~ crim + zn + chas + nox + rm + dis + rad + tax + ptratio + 
+#    black + lstat
+
+
+#b) Nếu được biểu diễn theo 2 biến thì 2 biến đó là 2 biến đầu tiên được thêm vào
+#c) 
+summary(back)
+#Nhìn vào thấy hệ số nào mà có p_value > 0.05 là có giá trị trung bình = 0
+shapiro.test(back$res)
+#Không có phân phối chuẩn
+wilcox.test(back$res)
+#Gía trị trung bình phần dư khác không
+```
