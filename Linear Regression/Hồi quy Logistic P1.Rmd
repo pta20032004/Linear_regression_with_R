@@ -1,0 +1,96 @@
+10. This question should be answered using the Weekly data set, which is part of the ISLR package. This data is similar in nature to the Smarket data from this chapter’s lab, except that it contains 1,089 weekly returns for 21 years, from the beginning of 1990 to the end of 2010.
+
+<!-- -->
+
+(a) Produce some numerical and graphical summaries of the Weekly data. Do there appear to be any patterns?
+(b) Use the full data set to perform a logistic regression with Direction as the response and the five lag variables plus Volume as predictors. Use the summary function to print the results. Do any of the predictors appear to be statistically significant? If so, which ones?
+(c) Compute the confusion matrix and overall fraction of correct predictions. Explain what the confusion matrix is telling you about the types of datamistakes made by logistic regression.
+(d) Now fit the logistic regression model using a training data period from 1990 to 2008, with Lag2 as the only predictor. Compute the confusion matrix and the overall fraction of correct predictions for the held out data (that is, the data from 2009 and 2010).
+
+```{r}
+#install.packages("ISLR")
+library(ISLR)
+data = Weekly
+
+summary(Weekly)
+
+#Hàm cor() : Tính hệ số tương quan giữa các biến
+#cor(data[, -9]) -9: bỏ đi cột 9 vì không phải numberic
+#Viết vậy để nhớ lại thôi chứ hàm cor trong ví dụ trên không có ý nghĩa gì
+
+pairs(data)
+```
+
+```{r}
+attach(data)
+
+contrasts(Direction)
+levels(Direction)
+data2 = data[, -8]
+glm.fit = glm(Direction ~ ., data = data2, family = binomial)
+summary(glm.fit)
+
+glm.pre = predict(glm.fit, newdata = data2, type = "response")
+glm.pre
+
+
+glm.p = rep("Down", nrow(data))
+glm.p[glm.pre >= 0.5] = "Up"
+glm.p
+
+dem = 0
+for (i in 1:nrow(data)){
+  if(glm.p[i] == data$Direction[i]){
+    dem = dem + 1
+  }
+}
+
+cat(dem/nrow(data))
+```
+
+```{r}
+#Ma trận nhầm lẫn, confusion matrix
+
+x = glm.p
+y = data$Direction
+table(x, y)
+#Nhìn vào ma trận nhầm lẫn, ta thấy có 56 biến Down được dự đoàn  là Down, 47 Down được dự đoán là Up
+#Vơi Up thì có 428 Up dự đoán là Down và 558 Up dự đoán là Up
+#Ta thửu xem lại tỉ lệ dự đoán đúng nhé
+(56+558)/(56+47+428+558) #Kết quả ra đúng bằng 56 %
+
+#Nói thêm về cofusion matrix
+#Biến có p dự đoán là 1 được gọi là Positive, còn 0 được gọi là Negative
+#Trong confusion matrix có 4 ô, ô TP, FP, TN, FN, T à TRUE, F là FALSE, P, N như đã nói ở trên
+
+```
+
+```{r}
+#View(data)
+contrasts(data$Direction)
+levels(data$Direction)
+names(data)
+train = subset(data, Year!= 2009 & Year != 2010)
+test = subset(data, Year == 2009 | Year == 2010)
+#View(test)
+
+
+#Xây dựng mô hình trên tập train
+glm.fit = glm(Direction ~ Lag2, data = train, family = binomial)
+
+glm.pre = predict(glm.fit, newdata = test2, type = "response")
+glm.pre
+
+h = rep("Down", nrow(test2))
+
+for (i in 1:nrow(test2)){
+  if (glm.pre[i] >= 0.5){
+    h[i] = "Up"
+  }
+}
+
+h
+
+table(h, test2$Direction)
+65/ (65+39)
+```
