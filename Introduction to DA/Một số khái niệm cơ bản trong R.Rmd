@@ -1,0 +1,440 @@
+---
+title: "Một số khái niệm cơ bản trong R"
+author: "Nguyễn Thị Phương Mai"
+date: "2023-11-08"
+output: html_document
+---
+### 1. Các phép toán cơ bản trong R:
+
+#### 1.1. Các phép toán số học trong R gồm có:
+
+- Phép cộng: 
+```{r}
+123+234
+```
+- Phép trừ:
+```{r}
+3234-532
+```
+- Phép nhân:
+```{r}
+123*456
+```
+- Phép chia:
+```{r}
+100/25
+```
+- Lũy thừa:
+```{r}
+2^3
+```
+- Chia lấy phần nguyên:
+```{r}
+10%/%3
+```
+- Chia lấy phần dư:
+```{r}
+ 10%%3
+```
+
+#### 1.2. Các phép toán so sánh:
+
+- Phép toán nhỏ hơn: <
+
+- Phép toán lớn hơn: >
+
+- Phép toán nhỏ hơn hoặc bằng: <=
+
+- Phép toán lớn hơn hoặc bằng: >=
+
+- Phép toán bằng: ==
+
+#### 1.3. Các phép toán logic:
+
+- Toán tử và: & hoặc &&
+
+- Toán tử hoặc: | hoặc ||
+
+- Phép phủ định: !
+
+```{r}
+3<5
+3<5&5<10
+6!=2
+!6!=2
+3<=4
+3<5|5>10
+```
+**Lưu ý:** Các toán tử này không chỉ áp dụng cho những phần tử đơn lẻ, mà
+trong R có tính “vectơ hóa”, giúp chúng ta thực hiện các phép toán giữa
+2 vector mà không cần dùng vòng lặp.
+```{r}
+x = c(1, 3, 5, 7, 9)
+y = c(2, 4, 6, 8, 10)
+x
+y
+#Cộng véc tơ với một số
+x + 2
+#Nhân một véc tơ với một số
+2*x
+#Chia véc tơ cho một số
+x/5
+#Nâng lũy thừa một véc tơ
+x^2
+#Cộng hai véc tơ
+x + y
+#Nhân hai véc tơ với nhau
+x*y
+#Chia hai véc tơ cho nhau
+x/y
+#Lũy thừa các phần tử trong x với số mũ trong y
+x^y
+x<5
+!x<5
+y==6
+(x<5)&(y==6)
+(x<5)|(y==6)
+
+```
+### 2. Biến trong R:
+
+Trong R, khi cần lưu lại kết quả của các phép tính hoặc các hàm phục vụ
+cho việc tính toán về sau, ta sẽ lưu các kết quả này vào các biến trong R
+Trong R, ta không cần khởi tạo biến, mà chỉ cần đặt tên biến và gán cho
+nó một giá trị khi cần thiết. Ví dụ:
+```{r}
+var_x = 34.5
+```
+
+### 3. Các kiểu dữ liệu trong R:
+
+Trong R có các kiểu dữ liệu cơ bản sau:
+
+- character: Dạng chuỗi ký tự
+```{r}
+fruit = "Apple"
+fruit
+```
+- integer: Dạng số nguyên
+```{r}
+integer_variable = 187
+integer_variable
+```
+- numeric: Dạng số thực
+```{r}
+weight = 63.5
+height = 182
+```
+- complex: Dạng số phức
+```{r}
+complex_value = 3 + 2i
+```
+- logical: gồm 2 giá trị TRUE và FALSE 
+```{r}
+bool1 = TRUE
+bool1
+```
+
+### 4. Các cấu trúc dữ liệu trong R:
+
+Trong R có các cấu trúc dữ liệu sau:
+
+- vector
+
+- list
+
+- factor
+
+- matrix
+
+- data.frame
+
+#### 4.1. Vector:
+
+Là một mảng dùng để lưu trữ các dữ liệu có cùng kiểu với nhau. Để tạo một vector, ta sử dụng hàm ***c()***:
+```{r}
+#x là một vector
+x = c(1, 3, 5, 7, 8)
+```
+Để lấy giá trị một phần tử trong vector, ta sử dụng cú pháp sau:
+```{r}
+#Lấy ra phần tử ở vị trí thứ 2
+x[2] 
+#Lấy ra tất cả các phần tử trừ phần tử thứ 1
+x[-1] 
+#Lấy ra phần tử thứ 1,2 và 5
+x[c(1,2,5)]
+x[c(TRUE, TRUE, FALSE, FALSE, TRUE)] 
+```
+***Lưu ý:*** Khác với nhiều ngôn ngữ khác (C++, Java, JS, . . . ), chỉ số các phần tử trong R được đánh số từ 1, thay vì từ 0.
+
+#### 4.2. List:
+
+Là một danh sách, có thể dùng để lưu các biến ở nhiều kiểu dữ liệu khác
+nhau. Để tạo 1 list, ta sử dụng hàm ***list()***:
+```{r}
+list1 = list(
+a = c(1, 2, 3),
+b = c("Apple", "Orange"),
+c = c(TRUE, FALSE)
+)
+list1
+```
+Để lấy các phần tử trong 1 list, ta sử dụng dấu $ như sau:
+```{r}
+list1[1]
+list1$b
+```
+
+#### 4.3. Factor:
+
+Là một vector chuyên dùng để lưu trữ các biến định tính. Để tạo factor từ
+một vector, ta dùng hàm ***factor()***:
+```{r}
+sex_vec = c("female", "female", "female", "male", "female", "male", "male", "female")
+sex_fac = factor(sex_vec)
+sex_fac
+```
+Ta có thể truy cập các phần tử của factor tương tự như vector.
+
+#### 4.4. Matrix:
+
+Là một mảng 2 chiều dùng để lưu trữ các dữ liệu có cùng kiểu với nhau. Để tạo một matrix, ta dùng hàm ***matrix()***:
+```{r}
+#Tạo ra ma trận 2 hàng, 3 cột
+x=1:6
+matrix1=matrix(x,ncol=2)
+matrix1
+matrix2=matrix(x,ncol=2,byrow=TRUE)
+matrix2
+```
+
+Để truy cập các phần tử trong matrix, ta làm tương tự như vector, nhưng
+lưu ý: matrix là mảng 2 chiều, nên sẽ cần 2 chỉ số:
+```{r}
+#Lấy ra phần tử ở vị trí hàng 1, cột 1
+matrix1[1, 1]
+#Lấy ra hàng 1
+matrix1[1,]
+#Lấy ra cột 1
+matrix1[,1]
+#Lấy ra hàng 1 và hàng 3
+matrix1[c(1,3),]
+```
+#### 4.5. Data.frame (mảng dữ liệu)
+
+Là một bảng dữ liệu, với mỗi cột dữ liệu là một vector. Chúng ta sẽ tìm
+hiểu sâu hơn về data.frame trong các bài sau.
+
+### 5. Hàm và cách sử dụng hàm trong R:
+
+#### 5.1. Hàm có sẵn trong R:
+
+Trong R, hàm là một tập hợp các câu lệnh được sắp xếp để thực hiện 1
+công việc cụ thể. Trong thư viện chuẩn của R đã có sẵn rất nhiều hàm
+thông dụng trong tính toán xác suất thống kê.
+
+Các hàm trong R có cấu trúc như sau:
+
+**function_name(arg1, arg2 = default, ...)**
+
+Trong đó:
+
+- function_name là tên của hàm.
+
+- Các tham số arg1 , arg2 là các tham số của hàm, trong đó:
+
++ arg1 được gọi là tham số bắt buộc. Để sử dụng hàm, ta bắt buộc
+phải truyền tham số này vào hàm.
+
++ arg2 được gọi là tham số tùy chọn. Khi sử dụng hàm, nếu ta không
+truyền tham số này vào hàm, hàm sẽ sử dụng giá trị mặc định
+default để tính toán.
+
+Để gọi hàm trong R, ta làm như sau:
+
+Nếu không cần lưu kết quả của hàm:
+
+**function_name(args)**
+
+Nếu cần lưu kết quả của hàm:
+
+**result = function_name(args)**
+
+Trong đó function_name là tên của hàm mà ta muốn gọi, sau đó ta
+truyền các tham số vào phần args , theo 3 cách:
+
+1. Truyền tham số theo tên: Ta có thể thực hiện khai báo này ở vị trí
+bất kỳ trong hàm:
+
+Tham số có tên arg sẽ nhận giá trị value:
+**function_name(arg = value, ...)**
+
+2. Truyền tham số theo vị trí: giá trị được liệt kê không đi kèm tên tham
+số thì giá trị này được gán cho tham số xác định theo thứ tự trong
+danh sách tham số của hàm (do R, người viết hàm định nghĩa):
+
+Tham số thứ nhất trong hàm sẽ nhận value1, tham số thứ hai nhận value2:
+**function_name(value1, value2, ...)**
+
+3. Sử dụng cả hai cách truyền tham số. Ta hoàn toàn có thể truyền
+tham số theo cả hai cách trên khi gọi hàm:
+
+Tham số thứ nhất trong hàm sẽ nhận value1, tham số tên argument_n nhận value2:
+**function_name(value1, argument_n = value2,...)**
+
+Ví dụ: Truyền tham số theo cả 3 cách vào hàm sd (hàm đo mức độ phân tán của dữ liệu xung quanh giá trị trung bình)
+```{r}
+diem = 1:10
+diem
+#Truyền tham số theo tên
+sd(x = diem, na.rm = FALSE)
+sd(na.rm=FALSE,x=diem)
+#Truyền tham số theo tên và vị trí
+sd(na.rm = FALSE,diem)
+sd(FALSE,x=diem)
+#Truyền tham số theo vị trí
+sd(diem,FALSE)
+#sd(FALSE,diem)
+
+```
+Trong ví dụ trên, lệnh cuối cùng sẽ được hiểu là x = FALSE, na.rm = diem.
+R báo lỗi vì khai báo giá trị cho tham số không đúng theo định nghĩa của hàm sd.
+
+Nói chung, chúng ta nên sử dụng tên tham số khi khai báo giá trị cho tham số đó,điều này tránh được những rắc rối khi phải khai báo giá trị cho nhiều tham số. Hơn nữa, nhớ tên tham số dễ hơn nhớ thứ tự của tham số đó trong hàm.
+
+#### 5.2. Hàm tự định nghĩa
+Để tự định nghĩa hàm trong R chúng ta dùng hàm **function()** như sau:
+
+Cấu trúc:
+
+**function_name = function(argument_1, argument_2,...) {**
+
+**function body**
+  
+**return (output)**
+  
+**}**
+
+trong đó:
+
+- function name: tên của hàm cần định nghĩa.
+
+- các argument: các tham số (biến) truyền vào hàm cần định nghĩa.
+
+- function body: nội dung của hàm (hướng dẫn để thực hiện nhiệm vụ cụ thể dựa trên thông tin về các tham số). 
+
+- return statement: kết quả trả ra sau khi chạy hàm và gán giá trị của các tham số.  
+
+Ví dụ 1. Viết hàm in ra màn hình giá trị trung bình của 2 số x và y. Sau đó tính giá trị của hàm với x=10, y=20.
+
+```{r}
+
+
+```
+Ví dụ 2. Viết hàm để in ra màn hình lũy thừa của vector x với số mũ là vị trí của vector (ví dụ: x=c(1,2,3)-> 1^1,2^2,3^3). Kiểm tra với x=1:10.
+```{r}
+
+
+```
+
+#### 5.3. Hàm in đầu ra:
+
+##### 5.3.1. Hàm ***print***:
+
+Cấu trúc: 
+
+***print("chuỗi") hoặc print(biến)***
+```{r}
+# R program to illustrate
+# printing output of an R program
+ 
+# print string
+print("GFG")
+ 
+# print variable
+# it will print 'GeeksforGeeks' on the console
+x = c("GeeksforGeeks")
+print(x)
+```
+##### 5.3.2. Hàm ***paste*** và ***paste0***: 
+
+Là những hàm có thể in ra chuỗi và biến cùng với nhau. 
+
+Cấu trúc:
+
+***print(paste("chuỗi",biến)) hoặc print(paste0(biến,"chuỗi"))***
+
+Sự khác nhau giữa ***paste*** và ***paste0*** là đối với hàm ***paste*** giữa các argument (được ngăn cách bởi dấu phẩy) có dấu cách còn hàm ***paste0*** thì không có.
+```{r}
+# R program to illustrate
+# printing output of an R program
+ 
+x = c("GeeksforGeeks")
+ 
+# using paste inside print()
+print(paste(x, "là một chuỗi ký tự")) 
+ 
+# using paste0 inside print()
+print(paste0(x, "là một chuỗi ký tự")) 
+```
+##### 5.3.3. Hàm ***cat***:
+
+Cấu trúc: 
+
+***cat("chuỗi") hoặc cat("chuỗi", biến)***
+
+```{r}
+# R program to illustrate
+# printing output of an R program
+ 
+# print string with variable
+# "\n" for new line
+x = c("GeeksforGeeks")
+cat(x, "là một chuỗi ký tự\n") 
+ 
+# print normal string
+cat("Trong ngôn ngữ R")
+```
+
+##### 5.3.4. Hàm ***sprintf***
+
+Cấu trúc:
+
+***sprintf(“any string %d”, variable) or, sprintf(“any string %s”, variable) or, sprintf(“any string %f”, variable))...***
+
+```{r}
+x = c("GeeksforGeeks") # string
+x1 = 255            # integer
+x2 = 23.14          # float 
+ 
+# string print
+sprintf("%s là chuỗi ký tự", x)
+ 
+# integer print
+sprintf("%d là số nguyên", x1)
+ 
+# float print
+sprintf("%f là số thực", x2)
+```
+##### 5.3.5. Hàm ***message***:
+
+Cấu trúc: 
+
+***message(“chuỗi”) or, message(“chuỗi”, biến)***
+```{r}
+# R program to illustrate
+# printing output of an R program
+ 
+x = c("GeeksforGeeks")
+# print string with variable
+message(x, "là một chuỗi ký tự") 
+# print normal string
+message("Trong ngôn ngữ R")
+
+```
+
+
+
+
+
